@@ -1,9 +1,13 @@
+- name: Get service firewalld service facts 
+  service_facts: 
+
 - name: Configure firwall https/http access
   firewalld:
     service: "{{ item }}"
     permanent: yes
     immediate: yes
     state: enabled
+  when: ansible_facts.services["firewalld.service"]["state"] == "running"
   with_items:
   - http
   - https
