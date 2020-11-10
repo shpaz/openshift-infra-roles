@@ -1,0 +1,7 @@
+---
+- hosts: registry
+  vars:
+    ansible_connection: local
+  tasks:
+    - include_role:
+        name: registry
