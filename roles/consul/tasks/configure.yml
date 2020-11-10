@@ -1,0 +1,11 @@
+--- 
+- name: create default configuration for the consul cluster 
+  template:
+    src: "default.json.j2"
+    dest: "/etc/consul.d/config.json"
+
+- name: create rgw load balancing config files 
+  template:
+    src: "rgw.json.j2"
+    dest: "/etc/consul.d/{{ item.key }}.json"
+  with_dict: "{{ rgws }}"

@@ -1,0 +1,14 @@
+{
+  "service": {
+    "id": "{{ item.key }}",
+    "name": "s3",
+    "address": "{{ item.value.rgw_ip }}",
+    "port": {{ item.value.rgw_port }},
+    "check": {
+    "http": "http://{{ item.value.rgw_ip }}:{{ item.value.rgw_port }}",
+    "interval": "10s",
+    "timeout": "1s"
+    }
+  }
+}
+

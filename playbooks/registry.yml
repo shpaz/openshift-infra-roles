@@ -1,9 +1,6 @@
 ---
 - hosts: registry
   gather_facts: true
-  vars:
-    ansible_connection: local
-    registry_full_fqdn: spaz.tlv.csb 
   tasks:
     - include_role:
         name: registry

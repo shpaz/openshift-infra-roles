@@ -1,0 +1,11 @@
+--- 
+- name: run consul server via podman
+  shell:  |
+    podman run -d --hostname {{ ansible_hostname }}-consul --restart=always --network host --name {{ ansible_hostname }}-consul  \
+    -e CONSUL_BIND_INTERFACE={{ consul_interface }} -e CONSUL_ALLOW_PRIVILEGED_PORTS= -e CONSUL_DISABLE_PERM_MGMT= \
+    -v /etc/consul.d:/etc/consul:z consul agent -ui -config-dir /etc/consul
+  notify: 
+  - generate a unit file for consul service
+  - enable systemd consul service
+  - start systemd consul service
+

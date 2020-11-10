@@ -1,0 +1,23 @@
+consul_image: "consul"
+dc_name: "dc1"
+domain_name: "domain1"
+consul_interface: "wlp0s20f3"
+rgws: 
+  ceph-osd1.rgw0:
+    rgw_port: 8080 
+    rgw_ip: 10.128.15.193
+  ceph-osd1.rgw1:  
+    rgw_port: 8081
+    rgw_ip: 10.128.15.193
+  ceph-osd2.rgw0:
+    rgw_port: 8080
+    rgw_ip: 10.128.15.194
+  ceph-osd2.rgw1:
+    rgw_port: 8081
+    rgw_ip: 10.128.15.194
+  ceph-osd3.rgw0:
+    rgw_port: 8080
+    rgw_ip: 10.128.15.195
+  ceph-osd3.rgw1:
+    rgw_port: 8081
+    rgw_ip: 10.128.15.195

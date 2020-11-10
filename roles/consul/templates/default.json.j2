@@ -1,0 +1,28 @@
+{% if 'consul-servers' in group_names %}
+{
+  "datacenter": "{{ dc_name }}",
+  "domain": "{{ domain_name }}",
+  "data_dir": "/etc/consul",
+  "log_level": "INFO",
+  "node_name": "{{ ansible_hostname }}",
+  "server": true,
+  "bootstrap_expect": 3,
+  "advertise_addr": "{{ hostvars[inventory_hostname]['ansible_' + consul_interface]['ipv4']['address'] }}",
+{% set ns = namespace() %}
+{% set ns.addresses = '' %}
+{% for host in groups['consul-servers'] %}
+{% if host != inventory_hostname %}
+  {% set ns.addresses = ns.addresses + '"' + hostvars[host]['ansible_' + consul_interface]['ipv4']['address'] + '"' + ',' %}
+{% endif %}
+{% endfor %}
+  "retry_join": [{{ ns.addresses[:-1] }}],
+  "addresses": {
+  "http" : "0.0.0.0", 
+  "dns": "{{ hostvars[inventory_hostname]['ansible_' + consul_interface]['ipv4']['address'] }}"
+  },
+  "ports": {
+    "http": 80,
+    "dns": 53
+  }
+}
+{% endif %}

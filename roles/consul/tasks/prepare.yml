@@ -1,0 +1,37 @@
+--- 
+- name: stat consul bin file to check if unarchival is needed 
+  stat: 
+    path: /usr/local/bin/consul 
+  register: consul_bin_file
+
+- name: install unzip yum package for unarchiving 
+  yum:
+    name: unzip
+    state: present
+
+- name: unarchive consul bin file 
+  unarchive: 
+    src: files/consul.zip
+    dest: /usr/local/bin/
+  when: consul_bin_file.stat.exists == False
+
+- name: install python dependencies for using docker 
+  pip:
+    name: 
+    - requests
+
+- name: pull consul container image 
+  podman_image:
+    name: "{{ consul_image }}"
+
+- name: stat consul data dir to check if recreation is needed
+  stat:
+    path: /etc/consul.d
+  register: consul_data_dir
+
+- name: create data dir for consul configuration 
+  file: 
+    state: directory 
+    path: /etc/consul.d
+  when: consul_data_dir.stat.exists == False
+

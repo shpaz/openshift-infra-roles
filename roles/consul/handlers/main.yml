@@ -1,0 +1,17 @@
+---
+# handlers file for consul-lb
+
+- name: generate a unit file for consul service
+  shell: |
+    podman generate systemd --timeout 10 --restart-policy=always --name {{ ansible_hostname }}-consul > /etc/systemd/system/consul.service
+
+- name: enable systemd consul service
+  service:
+    name: consul
+    enabled: yes
+
+- name: start systemd consul service
+  service:
+    name: consul
+    state: started
+

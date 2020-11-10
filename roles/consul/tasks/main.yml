@@ -1,0 +1,5 @@
+---
+# tasks file for consul-lb
+- include_tasks: prepare.yml 
+- include_tasks: configure.yml
+- include_tasks: run.yml
