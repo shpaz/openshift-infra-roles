@@ -1,12 +1,12 @@
 - name: Search for any existing registry 
   shell: | 
-    podman ps -a | grep mirror-registry 
-  register: registry_exists 
+    podman ps -a  
+  register: containers_exist
 
 - name: Clean exsiting registry 
   shell: | 
     podman rm -f mirror-registry 
-  when: registry_exists is defined 
+  when: containers_exist.stdout_lines | select('search', 'mirror-registry') | list | length > 0
 
 - name: Start registry container using Podman
   shell: |
