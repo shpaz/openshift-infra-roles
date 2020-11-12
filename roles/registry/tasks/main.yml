@@ -3,16 +3,45 @@
 
 - name: Import Prerequisites Tasks
   include_tasks: install_prerequisites.yml
+  tags:
+  - registry
 
 - name: Import Authentication Tasks
   include_tasks: create_authentication.yml
+  tags:
+  - registry
 
 - name: Configure Firewall Access
   include_tasks: configure_firewall.yml
+  tags:
+  - registry
 
 - name: Start Registry Container
   include_tasks: start_registry.yml
+  tags:
+  - registry
 
 - name: Validate Registry Configuration
   include_tasks: validate_registry.yml
+  tags:
+  - registry
+
+- name: Mirror Needed Disconnected Container Images 
+  include_tasks: mirror_images.yml
+  when: mirror_disconnected_images == "true"
+  tags: 
+  - mirror 
+
+- name: Export Disconnected Images ZIP for Whitening 
+  include_tasks: export_images.yml
+  when: registry_data_action == "export"
+  tags: 
+  - export-tar
+
+- name: Import Disconnected Images From An Existing ZIP
+  include_tasks: import_images.yml
+  when: registry_data_action == "import"
+  tags: 
+  - import-tar 
+
 

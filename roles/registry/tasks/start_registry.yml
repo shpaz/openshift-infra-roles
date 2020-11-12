@@ -2,11 +2,15 @@
   shell: | 
     podman ps -a  
   register: containers_exist
+  tags:
+  - registry
 
 - name: Clean exsiting registry 
   shell: | 
     podman rm -f mirror-registry 
   when: containers_exist.stdout_lines | select('search', 'mirror-registry') | list | length > 0
+  tags:
+  - registry
 
 - name: Start registry container using Podman
   shell: |
@@ -21,4 +25,6 @@
      -e REGISTRY_HTTP_TLS_KEY=/certs/registry.key \
      -e REGISTRY_COMPATIBILITY_SCHEMA1_ENABLED=true \
      -d docker.io/library/registry:2
+  tags:
+  - registry
 

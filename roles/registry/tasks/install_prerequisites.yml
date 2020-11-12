@@ -2,6 +2,8 @@
   yum:
     name: ['httpd-tools','podman','python3-pip']
     state: present
+  tags:
+  - registry
 
 - name: Create directory tree
   file:
@@ -12,3 +14,6 @@
   - "certs"
   - "auth"
   - "data"
+  tags:
+  - registry
+

@@ -1,5 +1,8 @@
 - name: Get service firewalld service facts 
-  service_facts: 
+  service_facts:
+  tags:
+  - registry
+ 
 
 - name: Configure firwall https/http access
   firewalld:
@@ -13,6 +16,11 @@
   - https
   notify:
   - Restart the firewalld service
+  tags:
+  - registry
 
 - name: force all notified handlers to run at this point, not waiting for normal sync points
   meta: flush_handlers
+  tags:
+  - registry
+

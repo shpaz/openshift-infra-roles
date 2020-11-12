@@ -1,4 +1,14 @@
 --- 
+- name: Search for any existing registry
+  shell: |
+    podman ps -a
+  register: containers_exist
+
+- name: Clean exsiting registry
+  shell: |
+    podman rm -f {{ ansible_hostname}}-consul 
+  when: containers_exist.stdout_lines | select('search', 'consul') | list | length > 0
+
 - name: run consul server via podman
   shell:  |
     podman run -d --hostname {{ ansible_hostname }}-consul --restart=always --network host --name {{ ansible_hostname }}-consul  \

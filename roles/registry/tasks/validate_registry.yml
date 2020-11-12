@@ -2,9 +2,14 @@
   copy:
     src: /opt/registry/certs/registry.crt
     dest: /etc/pki/ca-trust/source/anchors/registry.crt
+  tags:
+  - registry
 
 - name: Update certificate for validation
   command: update-ca-trust extract
+  tags:
+  - registry
+
 
 - name: Test registry access
   uri:
@@ -14,10 +19,16 @@
     url: "https://{{ registry_full_fqdn }}/v2/_catalog"
     validate_certs: no
   register: result
+  tags:
+  - registry
+
 
 - name: Print test result if OK
   debug:
     msg: "Registry status for URL {{ result.url }} is OK!"
   when: result.status|int == 200
+  tags:
+  - registry
+
 
 

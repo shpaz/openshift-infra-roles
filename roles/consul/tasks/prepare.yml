@@ -20,6 +20,11 @@
     name: 
     - requests
 
+- name: login to the container registry 
+  shell: | 
+    podman login -u {{ registry_username }} -p {{ registry_password }}
+  when: registry_username is defined and registry_password is defined 
+
 - name: pull consul container image 
   podman_image:
     name: "{{ consul_image }}"
