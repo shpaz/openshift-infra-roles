@@ -41,6 +41,6 @@ To run the automation:
 * You should change the dictionary located in `group_vars/consul-servers.yml` to your RGW instances, Ansible will load them as consul config
 * Run the command ```bash ansible-playbook playbooks/consul.yml -i hosts --extra-vars "registry_username= registry_password="``` 
 
-This will create a three-node Consul cluster, and will serve the UI in port 80. 
+This will create a three-node Consul cluster, and will serve the UI in port 80. To access your S3 service, use the following url - http://s3.service.dc1.domain1 for example.  
 
   

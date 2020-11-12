@@ -11,20 +11,5 @@ consul_interface: "wlp0s20f3"
 ################# RGWs to point to ##################################
 rgws: 
   ceph-osd1.rgw0:
-    rgw_port: 8080 
-    rgw_ip: 10.128.15.193
-  ceph-osd1.rgw1:  
-    rgw_port: 8081
-    rgw_ip: 10.128.15.193
-  ceph-osd2.rgw0:
-    rgw_port: 8080
-    rgw_ip: 10.128.15.194
-  ceph-osd2.rgw1:
-    rgw_port: 8081
-    rgw_ip: 10.128.15.194
-  ceph-osd3.rgw0:
-    rgw_port: 8080
-    rgw_ip: 10.128.15.195
-  ceph-osd3.rgw1:
-    rgw_port: 8081
-    rgw_ip: 10.128.15.195
+    rgw_port: 8000
+    rgw_ip: 192.168.1.20

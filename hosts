@@ -3,3 +3,6 @@ localhost
 
 [consul-servers]
 localhost
+
+[s3bench]
+localhost
