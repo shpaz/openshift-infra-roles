@@ -8,6 +8,8 @@
 - name: Generate the registry certificate using the provided answerfile
   shell: |
      openssl req -newkey rsa:4096 -nodes -sha256 -keyout /opt/registry/certs/registry.key -x509 -days 1825 -out /opt/registry/certs/registry.crt -config /opt/registry/certs/csr.txt
+  tags:
+  - registry
 
 - name: Create login credentaisl using htpasswd
   command: | 

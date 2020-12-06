@@ -1,9 +1,9 @@
 ################ General Config ################################3######
 ansible_connection: local
-registry_full_fqdn: spaz.tlv.csb
+registry_full_fqdn: ocp-bastion
 
 ################ Prepare Disconnected Artifacts #########################
-mirror_disconnected_images: "true"
+mirror_disconnected_images: "false"
 disconnected_images: 
 - "registry.redhat.io/openshift4/ose-prometheus-node-exporter:v4.1"
 - "registry.redhat.io/rhceph/rhceph-4-dashboard-rhel8:4"
