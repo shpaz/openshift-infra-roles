@@ -1,18 +1,15 @@
-- name: Pull All Disconnected Images 
-  shell: |
-    podman login -u "{{ rh_username }}" -p "{{ rh_password }}" registry.redhat.io
-    podman pull "{{ item }}" 
-  with_items: "{{ disconnected_images }}"
+- name: create mirror script on the remote host 
+  template: 
+    src: "../templates/mirror.sh.j2"
+    dest: "/tmp/mirror.sh" 
+    mode: a+x
+  delegate_to: localhost
+  tags:
+  - mirror
+
+- name: Mirror wanted ocp version installation images 
+  script: /tmp/mirror.sh
   tags: 
   - mirror  
 
-- name: Tag and Push All Images To Suite Offline Registry 
-  shell: |
-    podman login -u admin -p admin {{ registry_full_fqdn }}
-    IMAGE=`echo {{ item }} | sed -E 's/docker.io|docker.elastic.co|registry.redhat.io/{{ registry_full_fqdn }}/g'`
-    podman tag {{ item }} $IMAGE 
-    podman push $IMAGE 
-  with_items: "{{ disconnected_images }}"
-  tags:
-  - mirror
 

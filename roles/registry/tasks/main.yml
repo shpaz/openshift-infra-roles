@@ -26,9 +26,8 @@
   tags:
   - registry
 
-- name: Mirror Needed Disconnected Container Images 
+- name: Mirror Needed Disconnected Openshift Images 
   include_tasks: mirror_images.yml
-  when: mirror_disconnected_images == "true"
   tags: 
   - mirror 
 
