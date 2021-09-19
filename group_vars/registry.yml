@@ -1,7 +1,7 @@
 ################ General Config ################################3######
 ansible_connection: local
 
-registry_full_fqdn: 'registry:5000'
+registry_full_fqdn: 'ocp-test'
 ocp_mirror_version: '4.8.11'
 pull_secret_location: '/root/pull-secret.json'
 

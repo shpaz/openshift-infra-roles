@@ -1,6 +1,6 @@
 - name: create mirror script on the remote host 
   template: 
-    src: "../templates/mirror.sh.j2"
+    src: mirror.sh.j2
     dest: "/tmp/mirror.sh" 
     mode: a+x
   delegate_to: localhost

@@ -1,19 +1,19 @@
 - name: Generate CSR
   template:
     src: csr.j2
-    dest: /opt/registry/certs/csr.txt
+    dest: "{{ registry_base_dir }}/certs/csr.txt"
   tags:
   - registry
 
 - name: Generate the registry certificate using the provided answerfile
   shell: |
-     openssl req -newkey rsa:4096 -nodes -sha256 -keyout /opt/registry/certs/registry.key -x509 -days 1825 -out /opt/registry/certs/registry.crt -config /opt/registry/certs/csr.txt
+     openssl req -newkey rsa:4096 -nodes -sha256 -keyout {{ registry_base_dir }}/certs/registry.key -x509 -days 1825 -out {{ registry_base_dir }}/certs/registry.crt -config {{ registry_base_dir }}/certs/csr.txt
   tags:
   - registry
 
 - name: Create login credentaisl using htpasswd
   command: | 
-     htpasswd -bBc /opt/registry/auth/htpasswd admin admin
+     htpasswd -bBc {{ registry_base_dir }}/auth/htpasswd admin admin
   tags:
   - registry
 

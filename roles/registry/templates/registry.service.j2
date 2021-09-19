@@ -1,0 +1,19 @@
+[Unit]
+Description=Podman container-registry.service
+Documentation=man:podman-generate-systemd(1)
+Wants=network.target
+After=network-online.target
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Restart=on-failure
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/container-registry.pid %t/container-registry.ctr-id
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/container-registry.pid --cidfile %t/container-registry.ctr-id --cgroups=no-conmon --replace --name registry -p {{ registry_bind_port }}:5000 -v {{ registry_base_dir }}/data:/var/lib/registry:z -v {{ registry_base_dir }}/auth:/auth:z -v {{ registry_base_dir }}/certs:/certs:z -e REGISTRY_AUTH=htpasswd -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt -e REGISTRY_HTTP_TLS_KEY=/certs/registry.key -d docker.io/library/registry:2
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-registry.ctr-id -t 10
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/container-registry.ctr-id
+PIDFile=%t/container-registry.pid
+Type=forking
+
+[Install]
+WantedBy=multi-user.target default.target

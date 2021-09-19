@@ -1,6 +1,6 @@
 - name: Tar The Registry's Data Folder 
   archive:
-    path: /opt/registry/data
+    path: {{ registry_base_dir }}/data
     dest: "{{ tar_location }}/registry.tar.gz"
     format: gz
 

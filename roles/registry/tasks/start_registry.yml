@@ -7,20 +7,20 @@
 
 - name: Clean exsiting registry 
   shell: | 
-    podman rm -f mirror-registry 
-  when: containers_exist.stdout_lines | select('search', 'mirror-registry') | list | length > 0
+    podman rm -f registry 
+  when: containers_exist.stdout_lines | select('search', 'registry') | list | length > 0
   tags:
   - registry
 
 - name: Start registry container using Podman
   shell: |
-    podman run --name mirror-registry -p 443:5000 \
-     -v /opt/registry/data:/var/lib/registry:z \
-     -v /opt/registry/auth:/auth:z \
+    podman run --name registry -p 443:5000 \
+     -v {{ registry_base_dir }}/data:/var/lib/registry:z \
+     -v {{ registry_base_dir }}/auth:/auth:z \
      -e "REGISTRY_AUTH=htpasswd" \
      -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
      -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
-     -v /opt/registry/certs:/certs:z \
+     -v {{ registry_base_dir }}/certs:/certs:z \
      -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt \
      -e REGISTRY_HTTP_TLS_KEY=/certs/registry.key \
      -e REGISTRY_COMPATIBILITY_SCHEMA1_ENABLED=true \

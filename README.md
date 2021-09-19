@@ -53,4 +53,3 @@ This role divides into three parts:
 * The second part, deploys the s3bench service, which is being defined by a workload located in `group_vars/s3bench.yml`. Once you edit this vars file with your configuration (such as endpoint_url, access_key, secret_key, bucket_name, etc) you could pick the hosts you want to run these on by editing the inventory file. After running `ansible-playbook playbooks/s3bench.yml -i hosts --tags start_s3bench`, the playbook will add the needed containers to the pod and start testing your S3 service. 
 * The third part, created the dashboards, running `ansible-playbook playbooks/s3bench.yml -i hosts --tags create_dashboards` will send an API request to Kibana wit hthe needed ndjson file. 
 
-  

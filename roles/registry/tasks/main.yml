@@ -26,16 +26,15 @@
   tags:
   - registry
 
-- name: Mirror Needed Disconnected Openshift Images 
-  include_tasks: mirror_images.yml
-  tags: 
-  - mirror 
+- name: Create Registry Systemd Configuration
+  include_tasks: create_systemd.yml
+  tags:
+  - registry
 
-- name: Export Disconnected Images ZIP for Whitening 
-  include_tasks: export_images.yml
-  when: registry_data_action == "export"
-  tags: 
-  - export-tar
+- name: Mirror Needed Disconnected Openshift Images
+  include_tasks: mirror_images.yml
+  tags:
+  - mirror
 
 - name: Import Disconnected Images From An Existing ZIP
   include_tasks: import_images.yml
@@ -43,4 +42,9 @@
   tags: 
   - import-tar 
 
+- name: Export Disconnected Images ZIP for Whitening
+  include_tasks: export_images.yml
+  when: registry_data_action == "export"
+  tags:
+  - export-tar
 
