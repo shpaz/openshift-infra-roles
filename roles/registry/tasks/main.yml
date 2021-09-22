@@ -65,7 +65,7 @@
   include_tasks: import_images.yml
   when: registry_data_action == "import"
   tags: 
-  - import-tar 
+  - import 
 
 - name: Export Disconnected Images TAR for Whitening
   include_tasks: export_images.yml

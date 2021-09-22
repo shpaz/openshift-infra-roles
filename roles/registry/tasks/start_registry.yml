@@ -15,7 +15,7 @@
 
 - name: Start registry container using Podman
   shell: |
-    podman run --name registry -p 443:5000 \
+    podman run --name registry -p {{ registry_bind_port }}:5000 \
      -v {{ registry_base_dir }}/data:/var/lib/registry:z \
      -v {{ registry_base_dir }}/auth:/auth:z \
      -e "REGISTRY_AUTH=htpasswd" \

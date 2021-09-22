@@ -1,7 +1,5 @@
 - name: Untar The Registry's Data Folder
-  unarchive:
-    dest: {{ registry_base_dir }}/
-    src: "{{ tar_location }}/registry.tar.gz"
+  shell: "tar -xvf {{ tar_location }}/registry.tar.gz -C {{ registry_base_dir }}/"
   tags: 
     - import
 

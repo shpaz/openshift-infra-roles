@@ -1,5 +1,7 @@
 ---
 # defaults file for registry
+registry_bind_port: 5000
+registry_base_dir: "/var/registry"
 OCP_RELEASE: "{{ ocp_mirror_version }}"
 LOCAL_REGISTRY: "{{ registry_full_fqdn }}:{{ registry_bind_port }}"
 LOCAL_REPOSITORY: 'ocp4/openshift4'
@@ -7,7 +9,5 @@ PRODUCT_REPO: 'openshift-release-dev'
 LOCAL_SECRET_JSON: "{{ pull_secret_location }}"
 RELEASE_NAME: "ocp-release"
 ARCHITECTURE: "x86_64"
-registry_bind_port: 443
-registry_base_dir: "/opt/registry"
 
 

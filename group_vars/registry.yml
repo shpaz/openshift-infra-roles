@@ -4,13 +4,13 @@ rh_username: ''
 rh_password: '`'
 
 ################ Registry Config ################################3######: 
-registry_full_fqdn: 'ocp-test' 
+registry_full_fqdn: 'registry' 
 ocp_mirror_version: '4.8.11'
 pull_secret_location: '/root/pull-secret.json'
 
 ################## Saved zip container image for whitening ############################
-registry_data_action: "export" # 'export' to export a zipped file, 'import' to load the zip to an existing registry
-tar_location: "/root/"
+registry_data_action: "import" # 'export' to export a zipped file, 'import' to load the zip to an existing registry
+tar_location: "/opt/registry/data/"
 
 ################ Catalog Mirroring Config ################################3######
 selected_operators:
