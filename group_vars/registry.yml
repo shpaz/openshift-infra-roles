@@ -1,7 +1,7 @@
 ################ General Config ################################3######: 
 ansible_connection: local
-rh_username: 'spaz2'
-rh_password: '12896135200233Shon'
+rh_username: ''
+rh_password: '`'
 
 ################ Registry Config ################################3######: 
 registry_full_fqdn: 'ocp-test' 
@@ -51,7 +51,7 @@ selected_operators:
 #   - klusterlet-product
 #   - kubernetes-nmstate-operator
 #   - kubevirt-hyperconverged
-   - local-storage-operator
+#   - local-storage-operator
 #   - metering-ocp
 #   - mtc-operator
 #   - mtv-operator
