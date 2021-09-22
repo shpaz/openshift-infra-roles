@@ -2,7 +2,7 @@
 
 This repository is used for deploying various Openshift infrastructure workloads using Ansible Automation.
 
-## Registry 
+## Docker V2 Registry 
 
 ### Initial Deployment 
 
