@@ -1,18 +1,31 @@
-################ General Config ################################3######: 
+############################ General Config #######################################################
 ansible_connection: local
-rh_username: ''
-rh_password: '`'
 
-################ Registry Config ################################3######: 
+# Please provide your redhat login credentials, can be added via the following: 
+# ansible-playbook playbooks/registry.yml -e 'rh_username=' -e 'rh_password='
+rh_username: ''
+rh_password: ''
+
+############################ Registry Config ######################################################
+#Please give the DNS name that you're using for you registry, can be the full fqdn  
 registry_full_fqdn: 'registry' 
+
+# Please choose you wanted ocp version for mirroing images
 ocp_mirror_version: '4.8.11'
+
+# Please provide your pull secret file location, make sure it contains your offline 
+# registry too 
 pull_secret_location: '/root/pull-secret.json'
 
-################## Saved zip container image for whitening ############################
-registry_data_action: "import" # 'export' to export a zipped file, 'import' to load the zip to an existing registry
-tar_location: "/opt/registry/data/"
+############################ Importing and Exporting config #######################################
+# Please choose here whether you'd like to export or import the given registry data 
+registry_data_action: "import"
 
-################ Catalog Mirroring Config ################################3######
+# Please choose which location data should be taken from or copied to
+# The registry.tar.gz file suffix will be added automatically 
+tar_location: "/root/"
+
+############################ Catalog Mirroring Config ##############################################
 selected_operators:
 #   - 3scale-operator
 #   - advanced-cluster-management
