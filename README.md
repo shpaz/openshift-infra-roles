@@ -6,6 +6,13 @@ This repository is used for deploying various Openshift infrastructure workloads
 
 The `registry` role will create a Docker V2 registry using ansible local connection. This approach is very useful for mirroring images before a disconnected containerized installation.
 
+### Prerequisites 
+* A Bastion machine to work from (RHEL8.2+)
+* Ansible Installed (2.9+)
+
+Clone this repository to start using the automation: 
+```git clone git clone https://github.com/shpaz/openshift-infra-roles.git```
+
 #### Initial Deployment 
 
 The following automation works with a local ansible connection, taking into consideration all the needed steps for a docker registry to function as needed. After the playbook finishes and the validation phase has passed, you can start interacting with the registry as the playbook performs a login in your behalf.
