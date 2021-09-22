@@ -1,0 +1,50 @@
+- name: Filter minor OCP version from given {{ ocp_mirror_version }}
+  set_fact:
+    ocp_minor_version: "{{ ocp_mirror_version.split('.') }}"
+  tags: 
+  - catalog 
+
+- debug: 
+    msg: "{{ ocp_minor_version[0:2]| join('.') }}"
+  register: ocp_minor_version
+  tags: 
+  - catalog
+
+- name: Search for any existing index container 
+  shell: |
+    podman ps -a
+  register: containers_exist
+  tags:
+  - catalog
+
+- name: Clean exsiting index container if exists 
+  shell: |
+    podman rm -f index
+  when: containers_exist.stdout_lines | select('search', 'index') | list | length > 0
+  tags:
+  - catalog
+
+- name: Run the full index image container using Podman 
+  shell: |
+    podman run --name index -d -p50051:50051 --authfile {{ pull_secret_location }} \
+     -it registry.redhat.io/redhat/redhat-operator-index:v{{ ocp_minor_version.msg }}
+  tags:
+  - catalog
+
+- name: Export index images to the packages.out file 
+  shell: |
+    podman run --net host docker.io/fullstorydev/grpcurl -plaintext localhost:50051 api.Registry/ListPackages > /tmp/packages.out 
+  tags:
+  - catalog
+
+- name: Validate selected operators exist in file 
+  shell: "grep -i {{ item }} /tmp/packages.out"
+  with_items: "{{ selected_operators }}" 
+  
+  tags: 
+  - catalog 
+
+
+
+
+

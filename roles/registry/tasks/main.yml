@@ -36,15 +36,40 @@
   tags:
   - mirror
 
-- name: Import Disconnected Images From An Existing ZIP
+- name: Including catalog mirroring prereqs valistion 
+  include_tasks: validate_catalog_prereqs.yml
+  tags:
+  - catalog
+
+- name: Getting all possible packages for mirror 
+  include_tasks: get_catalog_packages.yml
+  tags:
+  - catalog
+
+- name: Prunning index image according to a given operator list 
+  include_tasks: prune_index_image.yml
+  tags:
+  - catalog
+
+- name: Mirror catalog images to offline registry 
+  include_tasks: mirror_catalog_images.yml
+  tags:
+  - catalog
+
+- name: Render needed catalog files (icsp and catalgSource)
+  include_tasks: render_cs_and_icsp.yml 
+  tags:
+  - catalog
+
+- name: Import Disconnected Images From An Existing TAR
   include_tasks: import_images.yml
   when: registry_data_action == "import"
   tags: 
   - import-tar 
 
-- name: Export Disconnected Images ZIP for Whitening
+- name: Export Disconnected Images TAR for Whitening
   include_tasks: export_images.yml
   when: registry_data_action == "export"
   tags:
-  - export-tar
+  - export
 

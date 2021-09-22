@@ -1,7 +1,9 @@
 - name: Tar The Registry's Data Folder 
   archive:
-    path: {{ registry_base_dir }}/data
+    path: "{{ registry_base_dir }}/data"
     dest: "{{ tar_location }}/registry.tar.gz"
     format: gz
+  tags:
+  - export
 
 

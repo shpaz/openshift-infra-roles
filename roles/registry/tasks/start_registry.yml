@@ -9,6 +9,7 @@
   shell: | 
     podman rm -f registry 
   when: containers_exist.stdout_lines | select('search', 'registry') | list | length > 0
+  ignore_errors: yes
   tags:
   - registry
 

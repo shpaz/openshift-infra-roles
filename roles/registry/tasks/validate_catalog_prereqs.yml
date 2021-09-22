@@ -1,0 +1,78 @@
+- name: Verify RHEL OS Version 
+  debug: 
+    msg: "OS version validation passed"
+  when: ansible_distribution=="RedHat" and (ansible_distribution_version=="8.2" or ansible_distribution_version=="8.3" or ansible_distribution_version=="8.4")
+  tags:
+  - catalog
+
+- name: Verify Podman is installed on local machine 
+  stat:
+    path: /usr/bin/podman 
+  register: podman_exists 
+  tags:
+  - catalog
+
+- name: Verify Podman is installed on local machine
+  debug:
+    msg: "Podman validation passed"
+  when: podman_exists.stat.exists
+  tags:
+  - catalog
+
+- name: Verify opm is installed on local machine
+  stat:
+    path: /usr/bin/opm
+  register: opm_exists
+  tags:
+  - catalog
+
+- name: Verify opm is installed on local machine
+  debug:
+    msg: "opm validation passed"
+  when: opm_exists.stat.exists
+  tags:
+  - catalog
+
+- name: Verify grpcurl is installed on local machine  
+  shell: | 
+    podman images
+  register: grpcurl_exists 
+  tags:
+  - catalog
+
+- name: Verify grpcurl is installed on local machine
+  debug:
+    msg: "grpcurl validation passed"
+  when: grpcurl_exists.stdout_lines | select('search', 'grpcurl') | list | length > 0
+  tags:
+  - catalog
+
+- name: Verify sqlite is installed on local machine
+  package:
+    name: sqlite
+  check_mode: yes 
+  register: sqlite_exists
+  tags:
+  - catalog
+
+- name: Verify sqlite is installed on local machine
+  debug:
+    msg: "sqlite validation passed"
+  when: sqlite_exists
+  tags:
+  - catalog
+
+- name: Install sqlite if it isn't installed 
+  package:
+    name: sqlite
+    state: installed 
+  when: not sqlite_exists
+  tags:
+  - catalog
+
+
+
+ 
+
+
+

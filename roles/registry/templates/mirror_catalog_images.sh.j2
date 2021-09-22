@@ -1,0 +1,23 @@
+#! /bin/bash 
+
+# Save all the operator names (key names) to a variable 
+OPERATOR_KEY_NAMES=`echo {{ space_seperated_operators.msg }} | sed "s/'//g"`
+
+# for each wanted operator 
+for key in $OPERATOR_KEY_NAMES; do 
+  echo -e "starting mirroring phase for $key…\n" 
+  
+  # Save all the related images for a specific operator 
+  SOURCE=`echo "select * from related_image where operatorbundle_name like '%$key%';" | sqlite3 -line {{ tmp_database_location.stdout }} | grep image | awk '{print $3}'`
+  
+  # for each image in related images 
+  for image in $SOURCE;do
+    # Save the destination location, including registry and right digest
+    # Push the image to your disconnected registry 
+        DEST=`echo $(cat manifests*/mapping.txt | grep $image | awk -F "=" '{print $1}') | sed 's/registry.redhat.io/{{ LOCAL_REGISTRY }}/g'`
+    echo -e "mirroring $image to $DEST…\n" >> /tmp/mirrored_images.txt 
+    skopeo copy --dest-tls-verify=false --all --dest-creds 'admin:admin' docker://$image docker://$DEST
+  done
+done
+
+

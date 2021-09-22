@@ -4,4 +4,4 @@
   tasks:
     - include_role:
         name: registry
-      tags: ["import_tar", "export_tar", "mirror", "registry"]
+      tags: ["import", "export", "mirror", "registry","catalog"]

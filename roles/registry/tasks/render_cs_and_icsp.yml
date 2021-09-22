@@ -1,0 +1,16 @@
+- name: Render imageContentSourcePolicy file according to given configuration 
+  template:
+    src: imageContentSourcePolicy.yml.j2
+    dest: "../roles/registry/files/imageContentSourcePolicy.yml"
+  delegate_to: localhost
+  tags:
+  - catalog
+
+- name: Render catalogSource file according to given configuration
+  template:
+    src: catalogSource.yml.j2
+    dest: "../roles/registry/files/catalogSource.yml"
+  delegate_to: localhost
+  tags:
+  - catalog
+

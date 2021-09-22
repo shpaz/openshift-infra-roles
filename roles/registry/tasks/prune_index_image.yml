@@ -1,0 +1,31 @@
+- debug: 
+    msg: "{{ selected_operators | replace(' ','') | replace('[','') | replace(']','') }}"
+  register: comma_seperated_operators
+  tags: 
+  - catalog
+
+- name: Create prunning script  
+  template: 
+    src: prune.sh 
+    dest: "/tmp/prune.sh" 
+    mode: a+x 
+  delegate_to: localhost
+  tags:
+  - catalog
+
+- name: Prune index image from given operators
+  script: /tmp/prune.sh
+  tags: 
+  - catalog 
+
+- name: Push index image to the offline registry 
+  shell: |
+    GODEBUG=x509ignoreCN=0 podman push --authfile {{ pull_secret_location }} \
+    {{ LOCAL_REGISTRY }}/redhat/redhat-operators-index:v{{ ocp_minor_version.msg }}
+  tags:
+  - catalog 
+
+
+
+
+                                         

@@ -1,0 +1,8 @@
+#! /bin/bash 
+
+oc adm catalog mirror \
+    registry.redhat.io/redhat/redhat-operator-index:v{{ ocp_minor_version.msg }} \
+    {{ LOCAL_REGISTRY }} \
+    -a {{ pull_secret_location }} \
+    --filter-by-os='linux/amd64' \
+    --manifests-only

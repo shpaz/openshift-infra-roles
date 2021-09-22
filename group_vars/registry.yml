@@ -1,14 +1,85 @@
-################ General Config ################################3######
+################ General Config ################################3######: 
 ansible_connection: local
+rh_username: 'spaz2'
+rh_password: '12896135200233Shon'
 
-registry_full_fqdn: 'ocp-test'
+################ Registry Config ################################3######: 
+registry_full_fqdn: 'ocp-test' 
 ocp_mirror_version: '4.8.11'
 pull_secret_location: '/root/pull-secret.json'
 
-################### RedHat Login Info ###############################
-rh_username: ""
-rh_password: ""
-
 ################## Saved zip container image for whitening ############################
-registry_data_action: "import" # 'export' to export a zipped file, 'import' to load the zip to an existing registry 
-tar_location: "/home/spaz"
+registry_data_action: "export" # 'export' to export a zipped file, 'import' to load the zip to an existing registry
+tar_location: "/root/"
+
+################ Catalog Mirroring Config ################################3######
+selected_operators:
+#   - 3scale-operator
+#   - advanced-cluster-management
+#   - amq-broker
+#   - amq-broker-lts
+#   - amq-broker-rhel8
+#   - amq-online
+#   - amq-streams
+#   - amq7-cert-manager-operator
+#   - amq7-interconnect-operator
+#   - ansible-automation-platform-operator
+#   - apicast-operator
+#   - awx-resource-operator
+#   - businessautomation-operator
+#   - cincinnati-operator
+#   - cluster-kube-descheduler-operator
+#   - cluster-logging
+#   - clusterresourceoverride
+#   - codeready-workspaces
+#   - compliance-operator
+#   - container-security-operator
+#   - costmanagement-metrics-operator
+#   - datagrid
+#   - devworkspace-operator
+#   - eap
+#   - elasticsearch-operator
+#   - file-integrity-operator
+#   - fuse-apicurito
+#   - fuse-console
+#   - fuse-online
+#   - gatekeeper-operator-product
+#   - integration-operator
+#   - jaeger-product
+#   - jws-operator
+#   - kiali-ossm
+#   - klusterlet-product
+#   - kubernetes-nmstate-operator
+#   - kubevirt-hyperconverged
+   - local-storage-operator
+#   - metering-ocp
+#   - mtc-operator
+#   - mtv-operator
+#   - nfd
+#   - ocs-operator
+#   - openshift-gitops-operator
+#   - openshift-jenkins-operator
+#   - openshift-pipelines-operator-rh
+#   - performance-addon-operator
+#   - poison-pill-manager
+#   - ptp-operator
+#   - quay-bridge-operator
+#   - quay-operator
+#   - red-hat-camel-k
+#   - rh-service-binding-operator
+#   - rhacs-operator
+#   - rhmtv-operator
+#   - rhpam-kogito-operator
+#   - rhsso-operator
+#   - sandboxed-containers-operator
+#   - serverless-operator
+#   - service-registry-operator
+#   - service-telemetry-operator
+#   - servicemeshoperator
+#   - skupper-operator
+#   - smart-gateway-operator
+#   - sriov-network-operator
+#   - submariner
+#   - vertical-pod-autoscaler
+#   - web-terminal
+#   - windows-machine-config-operator

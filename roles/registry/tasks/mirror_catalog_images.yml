@@ -1,0 +1,49 @@
+- name: Create catalog mirroring script
+  template:
+    src: mirror_catalog.sh.j2
+    dest: "/tmp/mirror_catalog.sh"
+    mode: a+x
+  delegate_to: localhost
+  tags:
+  - catalog
+
+- name: Mirror catalog manifests only 
+  script: /tmp/mirror_catalog.sh
+  register: result
+  tags:
+  - catalog
+ 
+- name: Getting manifests mirroring output  
+  copy: 
+    content: "{{ result.stdout }}"
+    dest: /tmp/mirror_output.txt 
+  tags:
+  - catalog
+
+- name: Get the temporary index database location 
+  shell: | 
+          grep -oP '\/tmp\/\d+\/.*\.db' /tmp/mirror_output.txt
+  register: tmp_database_location 
+  tags:
+  - catalog
+
+- debug:
+    msg: "{{ selected_operators | replace('[','') | replace(']','') | replace(',','') }}"
+  register: space_seperated_operators
+  tags:
+  - catalog
+
+- name: Create catalog mirroring images script
+  template:
+    src: mirror_catalog_images.sh.j2
+    dest: "/tmp/mirror_catalog_images.sh"
+    mode: a+x
+  delegate_to: localhost
+  tags:
+  - catalog
+
+- name: Mirror catalog images to offline registry
+  script: /tmp/mirror_catalog_images.sh
+  tags:
+  - catalog
+
