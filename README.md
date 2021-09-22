@@ -4,11 +4,10 @@ This repository is used for deploying various Openshift infrastructure workloads
 
 ## Docker V2 Registry 
 
-### Initial Deployment 
-
 The `registry` role will create a Docker V2 registry using ansible local connection. This approach is very useful for mirroring images before a disconnected containerized installation.
 
-#### Run the automation 
+#### Initial Deployment 
+
 The following automation works with a local ansible connection, taking into consideration all the needed steps for a docker registry to function as needed. After the playbook finishes and the validation phase has passed, you can start interacting with the registry as the playbook performs a login in your behalf.
 To run the automation:
 
@@ -18,23 +17,42 @@ To run the automation:
 Things that are being handled by this `Initial Deployment` automation:
 * Installation of all prereqs needed for the registry to function 
 * Creation of htpasswd secrets in order to login properly 
-* Configuration Firewall ports for external access
-* Deployment a containerized registry using `podman` 
+* Configuration of Firewall ports for external access
+* Deployment of a containerized registry using `podman` 
 * Generation of a `systemd` serevice that will control the container's lifecycle
 
-You could also mirror specific image list which is documented in `group_vars/registry.yml`, those images will be mirrored to your local registry so you could export it later on. 
-To run the automation: 
+#### Mirroring Installation Materials 
 
-* Change the `mirror_disconnected_images` to `true`, then edit the `disconnected_images` list
-* Run with the command ```bash ansible-playbook playbooks/registry.yml -i hosts --extra-vars "rh_username= rh_password= --tags mirror"```
+The following automation can help you with mirroring the installation images of Openshift. In order to do so: 
+* Change the vars that are located in `group_vars/registry.yml` to your needed Openshift version (var `ocp_mirror_version`) and your pull secret file location (var `pull_secret_location`) 
+* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --tags mirror``` and wait for it to finish
 
-In addition, you could export/import an existing registry data directory. For example, if your'e about to have ao disconnected installation, you just export the registry's data dir into a tar.gz file, then load it when going on-site. 
+Things that are being handled by this `Mirroring Installation Materials` automation:
+* Verification of your registry's readiness 
+* Mirror of the needed images according to your provided Openshift version
+* Mirrors are beign authenticated using your provided pull secret file 
 
-To do so, you shold: 
+#### Building & Mirroring a Custom Catalog
 
-* Change the `registry_data_action` to export/import, while changing the `tar_location` as well to tell Ansible where to pull/push the tar file. 
-* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --extra-vars "rh_username=spaz rh_password=" --tags export```
-* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --extra-vars "rh_username=spaz rh_password=" --tags import```
+The following automation can help you building and mirroring a custom catalog, according to a given set of operators. In order to do so: 
+* Choose and unhash the list of operators provided in `group_vars/registry.yml` to five the automation a script of operator to prune 
+* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --tags catalog``` and wait for it to finish
+
+Things that are being handled by this `Building & Mirroring a Custom Catalog` automation:
+* Validation of all prereqs needed for building such a catalog 
+* Running the Red Hat global index to fetch packages names 
+* Prunning the index image and building a new one according to the given set of operators 
+* Mirroring all related images of the given operators into the offline registry 
+
+*Attention! If you want to track the images that are being mirrored, the automation exports a file to /tmp/mirrored_images.txt that you can tail to*
+
+#### Exporting & Importing Thw Whole Package
+
+This automation can help you exporting the registry's data directory into a tarball file, so as importing it in the air-gapped environment. In order to do so: 
+* Choose whether you'd like to export/import the data dir, by setting the `registry_data_action` var in the `group_vars/registry.yml` file
+* Provide the location of the files that should be imported/exported by changing `tar_location` var in the `group_vars/registry.yml` file
+* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --tags export``` and wait for it to finish
+* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --tags import``` and wait for it to finish
 
 The import playbook takes an existing tar containing the registry's data and loads it to the existing registry. 
 The export playbook doext exactly the opposite, while taking an exising registry and copy it's data dir into a compressable file. 
