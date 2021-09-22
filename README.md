@@ -1,16 +1,25 @@
-# IPOL Ansible Roles 
+# Openshift Infrastructure Ansible Roles 
 
-This repository is used for deploying various IPOL workloads using Ansible Automation.
+This repository is used for deploying various Openshift infrastructure workloads using Ansible Automation.
 
 ## Registry 
 
-The `registry` role will create a Docker V2 registry using ansible local connection. This approach is very useful for mirroring images before a disconnected Containerized installation.
+### Initial Deployment 
+
+The `registry` role will create a Docker V2 registry using ansible local connection. This approach is very useful for mirroring images before a disconnected containerized installation.
 
 The following automation works with a local ansible connection, taking into consideration all the needed steps for a docker registry to function as needed. After the playbook finishes and the validation phase has passed, you can start interacting with the registry as the playbook performs a login in your behalf.
 To run the automation:
 
 * Change the vars which are located in `group_vars/registry.yml` to your real registry FQDN. 
-* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --extra-vars "rh_username=spaz rh_password=" --tags registry``` and wait for it to finish
+* Run the command ```bash ansible-playbook playbooks/registry.yml -i hosts --tags registry``` and wait for it to finish
+
+Things that are being handled by this `Initial Deployment` automation:
+* Installation of all prereqs needed for the registry to function 
+* Creation of htpasswd secrets in order to login properly 
+* Configuration Firewall ports for external access
+* Deployment a containerized registry using `podman` 
+* Generation of a `systemd` serevice that will control the container's lifecycle
 
 You could also mirror specific image list which is documented in `group_vars/registry.yml`, those images will be mirrored to your local registry so you could export it later on. 
 To run the automation: 
