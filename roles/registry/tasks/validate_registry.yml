@@ -16,7 +16,7 @@
     user: admin
     password: admin
     method: GET
-    url: "https://{{ registry_full_fqdn }}/v2/_catalog"
+    url: "https://{{ LOCAL_REGISTRY }}/v2/_catalog"
     validate_certs: no
   register: result
   tags:
