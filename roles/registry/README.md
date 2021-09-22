@@ -63,5 +63,4 @@ BSD
 
 Author Information
 ------------------
-Shon Paz, Sr. Solution Architect, Red Hat 
-Feel free to reach out: spaz@redhat.com 
+Shon Paz, Sr. Solution Architect, Red Hat  - spaz@redhat.com 
